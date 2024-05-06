@@ -4,8 +4,9 @@ Write an asynchronous coroutine that takes in an integer argument (max_delay, wi
 
 Use the random module.
 """
-from asyncio import run
-from time import time
+import asyncio
+import time
+
 
 wait_n = __import__('1-concurrent_coroutines').wait_n
 
@@ -18,7 +19,7 @@ def measure_time(n: int, max_delay: float) -> float:
     Returns:
         float: time
     """
-    start = time()
-    run(wait_n(n, max_delay))
-    end = time()
+    start = time.time()
+    asyncio.run(wait_n(n, max_delay))
+    end = time.time()
     return end - start

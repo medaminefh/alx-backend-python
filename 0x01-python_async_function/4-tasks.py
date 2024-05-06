@@ -5,11 +5,13 @@ Write an asynchronous coroutine that takes in an integer argument (max_delay, wi
 Use the random module.
 """
 import asyncio
+from typing import List
+
 
 task_wait_random = __import__('3-tasks').task_wait_random
 
 
-async def task_wait_n(n: int, max_delay: int = 10) -> list:
+async def task_wait_n(n: int, max_delay: int = 10) -> List[float]:
     """
     Args:
         n (int): number of coroutines
