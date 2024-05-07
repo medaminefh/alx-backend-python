@@ -2,7 +2,6 @@
 """
 write a coroutine called async_generator
 """
-
 import asyncio
 import time
 
