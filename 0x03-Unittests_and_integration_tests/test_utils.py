@@ -74,34 +74,25 @@ class TestGetJson(unittest.TestCase):
 class TestMemoize(unittest.TestCase):
     """TestMemoize class"""
 
-    @parameterized.expand([
-        ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2),
-    ])
-    def test_memoize(self, nested_map, path, expected):
+    def test_memoize(self):
         """Test memoize"""
-        self.assertEqual(memoize(nested_map, path), expected)
+        class TestClass:
+            """TestClass class"""
 
-    @parameterized.expand([
-        ({"a": 1}, ("a",)),
-        ({"a": {"b": 2}}, ("a", "b")),
-    ])
-    def test_memoize_exception(self, nested_map, path):
-        """Test memoize exception"""
-        with self.assertRaises(Exception):
-            memoize(nested_map, path)
+            def a_method(self):
+                """a_method method"""
+                return 42
 
-    @parameterized.expand([
-        ({"a": 1}, ("a",), 1),
-        ({"a": {"b": 2}}, ("a",), {"b": 2}),
-        ({"a": {"b": 2}}, ("a", "b"), 2),
-    ])
-    def test_memoize_with_mocks(self, nested_map, path, expected):
-        """Test memoize with mocks"""
-        mock = Mock()
-        mock.return_value = expected
-        with patch('utils.memoize', mock):
-            self.assertEqual(memoize(nested_map, path), expected)
+            @memoize
+            def a_property(self):
+                """a_property property"""
+                return self.a_method()
 
-        mock.assert_called_once_with(nested_map, path)
+        test = TestClass()
+
+        self.assertEqual(test.a_property, 42)
+
+        with self.assertRaises(TypeError):
+            test.a_property = 42
+
+        self.assertEqual(test.a_property, 42)
